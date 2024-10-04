@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Square Fashion Online Shopping-Kenya</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const accessories = [
+            { id: 1, name: 'Necklace', price: 1500, image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80' },
+            { id: 2, name: 'Earrings', price: 1000, image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=300&q=80' },
+            { id: 3, name: 'Bracelet', price: 800, image: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=300&q=80' },
+            { id: 4, name: 'Ring', price: 1200, image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=300&q=80' },
+            { id: 5, name: 'Watch', price: 3000, image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=300&q=80' },
+            { id: 6, name: 'Sunglasses', price: 1800, image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=300&q=80' },
+            { id: 7, name: 'Handbag', price: 2500, image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=300&q=80' },
+            { id: 8, name: 'Scarf', price: 700, image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=300&q=80' },
+            { id: 9, name: 'Belt', price: 900, image: 'https://images.unsplash.com/photo-1553704571-c32d20e6c74f?auto=format&fit=crop&w=300&q=80' },
+            { id: 10, name: 'Hat', price: 1100, image: 'https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?auto=format&fit=crop&w=300&q=80' },
+            { id: 11, name: 'Tie', price: 800, image: 'https://images.unsplash.com/photo-1589756823695-278bc923f962?auto=format&fit=crop&w=300&q=80' },
+            { id: 12, name: 'Cufflinks', price: 1300, image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=300&q=80' },
+        ];
+        const AccessoryShop = () => {
+            const [cart, setCart] = React.useState([]);
+            const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+            const [showLogin, setShowLogin] = React.useState(false);
+            const [showPayment, setShowPayment] = React.useState(false);
+            const [phoneNumber, setPhoneNumber] = React.useState('');
+            const [phoneError, setPhoneError] = React.useState('');
+            const [backgroundIndex, setBackgroundIndex] = React.useState(0);
+            const [email, setEmail] = React.useState('');
+            const [username, setUsername] = React.useState('');
+            const [password, setPassword] = React.useState('');
+
+            React.useEffect(() => {
+                const interval = setInterval(() => {
+                    setBackgroundIndex((prevIndex) => (prevIndex + 1) % 5);
+                }, 5000);
+                return () => clearInterval(interval);
+            }, []);
+
+            const addToCart = (item) => {
+                if (!isLoggedIn) {
+                    setShowLogin(true);
+                } else {
+                    setCart([...cart, item]);
+                }
+            };
+            const login = (e) => {
+                e.preventDefault();
+                if (email && username && password.length >= 6) {
+                    setIsLoggedIn(true);
+                    setShowLogin(false);
+                } else {
+                    alert("Please fill in all fields. Password must be at least 6 characters.");
+                }
+            };
+            const proceedToPayment = () => {
+                setShowPayment(true);
+            };
+            const handlePhoneChange = (e) => {
+                const value = e.target.value.replace(/\D/g, ''); 
+                setPhoneNumber(value);
+                if (value.length !== 10) {
+                    setPhoneError('Phone number must be exactly 10 digits');
+                } else {
+                    setPhoneError('');
+                }
+            };
+            const submitPayment = () => {
+                if (phoneNumber.length !== 10) {
+                    setPhoneError('Phone number must be exactly 10 digits');
+                    return;
+                }
+                alert(`Payment processed successfully via.Thanks for shopping with us.!}`);
+                setCart([]);
+                setShowPayment(false);
+                setPhoneNumber('');
+                setPhoneError('');
+            };
+            return (
+                <div className="min-h-screen p-8" style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1920&q=80')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    transition: 'background-image 1s ease-in-out'
+                }}>
+                    <div className="max-w-6xl mx-auto bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+                        <header className="mb-8 text-center">
+                            <h1 className="text-4xl font-bold mb-4">Square Fashion Online Shopping-Kenya</h1>
+                            <p className="text-2g">Welcome to our Shopping Platform! Explore our curated selection of high-quality products. 
+        , we've got something for everyone. 
+            Enjoy secure shopping and fast delivery right to your doorstep.!</p>
+                        </header>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {accessories.map((item) => (
+                                <div key={item.id} className="bg-white p-4 rounded shadow">
+                                    <img src={item.image} alt={item.name} className="w-full h-40 object-cover mb-4 rounded" />
+                                    <h3 className="text-lg font-semibold">{item.name}</h3>
+                                    <p className="text-lg font-semibold">KES {item.price}</p>
+                                    <button onClick={() => addToCart(item)} className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        {showLogin && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+                                    <h2 className="text-2xl font-bold mb-4">Register / Sign In</h2>
+                                    <form onSubmit={login}>
+                                        <input
+                                            type="email"
+                                            placeholder="Email"
+                   value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+               className="w-full p-2 mb-2 border rounded"
+                                            required
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Username"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            className="w-full p-2 mb-2 border rounded"
+                                            required
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder="Password (min 6 characters)"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="w-full p-2 mb-4 border rounded"
+                                            minLength="6"
+                                            required
+                                        />
+                                        <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                                            Register / Sign In
+                                        </button>
+                                    </form>
+                                    <button onClick={() => setShowLogin(false)} className="mt-4 text-gray-600 hover:text-gray-800">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        {cart.length > 0 && (
+                            <div className="mt-8">
+                                <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
+                                <ul>
+                                    {cart.map((item, index) => (
+                                        <li key={index} className="mb-2">
+                                            {item.name} - KES {item.price}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <p className="font-bold mt-4">
+                                    Total: KES {cart.reduce((total, item) => total + item.price, 0)}
+                                </p>
+                                <button onClick={proceedToPayment} className="mt-4 bg-bg-blue-600text-yellow py-2 px-4 rounded hover:bg-blue-600">
+                                    Proceed to Payment
+                                </button>
+                            </div>
+                        )}
+                        {showPayment && (
+                            <div className="mt-8">
+                                <h2 className="text-2xl font-bold mb-4">M-Pesa Payment</h2>
+                                <input
+                                    type="tel"
+                                    placeholder="Enter 10-digit phone number"
+                                    value={phoneNumber}
+                                    onChange={handlePhoneChange}
+                                    className={`w-full p-2 mb-2 border rounded ${phoneError ? 'border-red-500' : ''}`}
+                                    maxLength="10"
+                                />
+                                {phoneError && <p className="text-red-500 mb-2">{phoneError}</p>}
+                                <button 
+                                    onClick={submitPayment} 
+                                    className={`bg-green-500 text-pink py-2 px-4 rounded hover:bg-green-600 ${phoneNumber.length !== 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    disabled={phoneNumber.length !== 10}
+                                >
+                                    Pay with M-Pesa
+                                    alert
+                                </button>
+                            </div>
+                        )}
+                        <footer className="mt-12 text-center text-blue-600">
+                            <p>&copy;2024 Square Fashion Online Shopping-Kenya. All rights reserved.</p>
+                            <p className="mt-2">Contact us:</p>
+                            <p>Phone: +254 704897343</p>
+                            <p>Address: Square Fashion Street, Nairobi, Kenya</p>
+                        </footer>
+                    </div>
+                </div>
+            );
+        };
+        ReactDOM.render(<AccessoryShop />, document.getElementById('root'));
+    </script>
+</body>
+</html>
